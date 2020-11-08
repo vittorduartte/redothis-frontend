@@ -24,7 +24,7 @@
           icon="favorite"
           type="gradient"
           color="danger"
-          >Become a Sponsor</vs-button
+          >Seja um Apoiador</vs-button
         >
       </vs-navbar>
     </vs-row>
@@ -51,34 +51,48 @@
           </vs-row>
           <vs-row vs-type="flex" vs-justify="center">
             <vs-col vs-w="10">
+              <span class="label-login-input">Email:</span>
               <vs-input
                 class="form-element"
+                :danger="$v.email.$error"
+                :color="$v.email.$error ? 'danger' : 'primary'"
+                danger-text="Insira um e-mail válido."
                 autofocus
                 v-model="email"
                 placeholder="Endereço de e-mail"
+                @change="$v.email.$touch()"
               ></vs-input>
             </vs-col>
             <vs-col vs-w="10">
+              <span class="label-login-input">Senha:</span>
               <vs-input
                 class="form-element"
+                :danger="$v.senha.$error"
+                :color="$v.senha.$error ? 'danger' : 'primary'"
+                danger-text="Insira uma senha válida."
                 v-model="senha"
                 placeholder="••••••••••"
                 type="password"
+                @change="$v.senha.$touch()"
               ></vs-input>
             </vs-col>
             <vs-col vs-w="10">
-              <vs-button class="login-button" type="gradient" color="danger"
+              <vs-button
+                class="login-button"
+                type="gradient"
+                color="danger"
+                @click="login()"
                 >Entrar</vs-button
               >
             </vs-col>
-            <vs-vol vs-w="10">
+            <vs-col vs-w="10">
               <p class="operations-login-form">
                 <a href="#">Esqueceu sua senha?</a>
               </p>
               <p class="operations-login-form">
                 Não tem uma conta no Redothis? <a href="#">Registre-se.</a>
               </p>
-            </vs-vol>
+            </vs-col>
           </vs-row>
         </div>
       </vs-col>
@@ -87,6 +101,8 @@
 </template>
 
 <script>
+import { required } from "vuelidate/lib/validators";
+
 export default {
   data() {
     return {
@@ -94,6 +110,26 @@ export default {
       email: "",
       senha: "",
     };
+  },
+  validations: {
+    email: { required },
+    senha: { required },
+  },
+  methods: {
+    login() {
+      if (!this.$v.$invalid) {
+        return false
+      } else {
+        this.$v.$touch()
+        this.$vs.notify({
+          icon:"verified_user",
+          title:'Credenciais inválidas!',
+          text: "O usuário ou senha incorretos.",
+          color: "warning",
+          time:4000
+        });
+      }
+    },
   },
 };
 </script>
@@ -141,7 +177,7 @@ img.login-illustration {
   width: 100%;
   border-radius: 5px;
   background: #5222d0;
-  box-shadow: 1px 3px 12px 2px rgba(57, 57, 58, 0.3);
+  box-shadow: 1px 3px 12px 2px rgba(57, 57, 58, 0.35);
 }
 
 .title-form {
@@ -149,17 +185,22 @@ img.login-illustration {
   align-items: center;
   font-weight: 600;
   color: #fff;
-  margin: 30px 0;
+  margin: 20px 0;
+}
+
+.label-login-input {
+  font-size: 12px;
+  color: #fff;
+  font-weight: 300;
 }
 
 .form-element {
   width: 100%;
-  padding: 0 0 20px 0;
 }
 
 .login-button {
   width: 100%;
-  margin-bottom: 20px;
+  margin: 20px auto;
 }
 
 .operations-login-form a {
