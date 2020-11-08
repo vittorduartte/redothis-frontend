@@ -8134,7 +8134,7 @@ vue-loader@^15.9.2:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
-vue-router@^3.3.4, vue-router@^3.4.8:
+vue-router@^3.4.8:
   version "3.4.8"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.4.8.tgz#2c06261d35d8075893470352d42d70b6287b8194"
   integrity sha512-3BsR84AqarcmweXjItxw3jwQsiYNssYg090yi4rlzTnCJxmHtkyCvhNz9Z7qRSOkmiV485KkUCReTp5AjNY4wg==
@@ -8160,17 +8160,18 @@ vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
 
-vue@^2.6.11:
+vue@^2.6.11, vue@^2.6.9:
   version "2.6.12"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.12.tgz#f5ebd4fa6bd2869403e29a896aed4904456c9123"
   integrity sha512-uhmLFETqPPNyuLLbsKz6ioJ4q7AZHzD8ZVFNATNyICSZouqP2Sz0rotWQC8UNBF6VGSCs5abnKJoStA6JbCbfg==
 
-vuesax@^4.0.1-alpha.25:
-  version "4.0.1-alpha.25"
-  resolved "https://registry.yarnpkg.com/vuesax/-/vuesax-4.0.1-alpha.25.tgz#2fb97ac8e4f3d479622d2dc6b498e5e57d44495d"
-  integrity sha512-cVLpKsem/YsMSbiy2s2M0O6rr8wrakOUFn0JYxtVQ1WgbVUD0/kU2/GMPVeRBNOh+30tRy2TKreFmjqc53vIBQ==
+vuesax@^3.12.2:
+  version "3.12.2"
+  resolved "https://registry.yarnpkg.com/vuesax/-/vuesax-3.12.2.tgz#4cc6b8fdfaf6fff45432c7b4b5c5be5080a3c21a"
+  integrity sha512-fdzcTPsrVklhWXtC8o07n9+SCmdQ8rxD9cZxNUx8KnbSH/Ss5azIHLLwMoNQuwT6kBFUcRzxVTfDh8jHzoSXaw==
   dependencies:
-    vue-router "^3.3.4"
+    chalk "^2.4.2"
+    vue "^2.6.9"
 
 vuex@^3.5.1:
   version "3.5.1"

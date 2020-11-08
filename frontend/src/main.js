@@ -8,11 +8,13 @@ import VueRouter from 'vue-router'
 import store from './store'
 import router from './router'
 
-import 'vuesax/dist/vuesax.css'
 import '@/assets/styles/main.css'
+import 'vuesax/dist/vuesax.css'
+import 'material-icons/iconfont/material-icons.css'
+import '@/assets/styles/components_modifier.css'
 
-Vue.use(Vuex)
 Vue.use(Vuesax)
+Vue.use(Vuex)
 Vue.use(VueRouter)
 Vue.use(MaterialIcons)
 
