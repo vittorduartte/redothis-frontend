@@ -13,7 +13,7 @@
           <a class="navbar-item" href="#">Sign In</a>
         </vs-navbar-item>
         <vs-navbar-item index="1">
-          <a class="navbar-item" href="#">Registrar-se</a>
+          <a class="navbar-item" @click="openPopupUserRegister()">Registrar-se</a>
         </vs-navbar-item>
         <vs-navbar-item index="2">
           <a class="navbar-item" href="#">Sobre Nós</a>
@@ -34,7 +34,7 @@
       vs-justify="space-around"
       vs-align="center"
     >
-      <vs-col vs-w="3">
+      <vs-col vs-type="flex" vs-justify="center" vs-w="7">
         <img
           src="../../assets/images/teaching.png"
           class="login-illustration"
@@ -42,7 +42,7 @@
           srcset=""
         />
       </vs-col>
-      <vs-col vs-w="3">
+      <vs-col vs-type="flex" vs-justify="flex-start" vs-w="3">
         <div class="login-form-section">
           <vs-row vs-type="flex" vs-justify="center">
             <h3 class="title-form">
@@ -97,13 +97,19 @@
         </div>
       </vs-col>
     </vs-row>
+    <RegisterPopup />
   </div>
 </template>
 
 <script>
 import { required } from "vuelidate/lib/validators";
+import { mapActions } from "vuex";
+import RegisterPopup from "@/features/Register/popup";
 
 export default {
+  components: {
+    RegisterPopup,
+  },
   data() {
     return {
       index: 0,
@@ -116,17 +122,18 @@ export default {
     senha: { required },
   },
   methods: {
+    ...mapActions('Register', ['openPopupUserRegister']),
     login() {
       if (!this.$v.$invalid) {
-        return false
+        return false;
       } else {
-        this.$v.$touch()
+        this.$v.$touch();
         this.$vs.notify({
-          icon:"verified_user",
-          title:'Credenciais inválidas!',
+          icon: "verified_user",
+          title: "Não permitido!",
           text: "O usuário ou senha incorretos.",
           color: "warning",
-          time:4000
+          time: 4000,
         });
       }
     },
@@ -138,14 +145,7 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Viga&display=swap");
 
 .brand {
-  font-family: "Viga", sans-serif;
-  color: #5222d0;
   padding: 0 20px;
-}
-
-.redo {
-  font-family: "Viga", sans-serif;
-  color: rgba(57, 57, 58);
 }
 
 .navbar-item {
@@ -164,8 +164,8 @@ export default {
 
 img.login-illustration {
   margin-left: 30px;
-  width: 450px;
-  height: 350px;
+  width: 513px;
+  height: 400px;
 }
 
 .login-area {
