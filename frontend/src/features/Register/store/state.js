@@ -1,3 +1,4 @@
 export default {
-    popupUserRegister : false
+    popupUserRegister : false,
+    lastUserRegister: {}
 }
