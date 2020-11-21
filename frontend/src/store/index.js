@@ -9,9 +9,11 @@ import mutations from './mutations'
 import getters from './getters'
 
 import Register from '@/features/Register/store'
+import Login from '@/features/Login/store'
 
 const modules = {
-    Register
+    Register,
+    Login
 }
 
 export default new Vuex.Store( {

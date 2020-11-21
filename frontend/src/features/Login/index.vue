@@ -13,7 +13,9 @@
           <a class="navbar-item" href="#">Sign In</a>
         </vs-navbar-item>
         <vs-navbar-item index="1">
-          <a class="navbar-item" @click="openPopupUserRegister()">Registrar-se</a>
+          <a class="navbar-item" @click="openPopupUserRegister()"
+            >Registrar-se</a
+          >
         </vs-navbar-item>
         <vs-navbar-item index="2">
           <a class="navbar-item" href="#">Sobre Nós</a>
@@ -56,7 +58,7 @@
                 class="form-element"
                 :danger="$v.email.$error"
                 :color="$v.email.$error ? 'danger' : 'primary'"
-                danger-text="Insira um e-mail válido."
+                danger-text="O e-mail inserido não é válido."
                 autofocus
                 v-model="email"
                 placeholder="Endereço de e-mail"
@@ -69,7 +71,7 @@
                 class="form-element"
                 :danger="$v.senha.$error"
                 :color="$v.senha.$error ? 'danger' : 'primary'"
-                danger-text="Insira uma senha válida."
+                danger-text="A senha inserida não é válido."
                 v-model="senha"
                 placeholder="••••••••••"
                 type="password"
@@ -103,7 +105,7 @@
 
 <script>
 import { required } from "vuelidate/lib/validators";
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 import RegisterPopup from "@/features/Register/popup";
 
 export default {
@@ -121,11 +123,24 @@ export default {
     email: { required },
     senha: { required },
   },
+  watch: {
+    lastUserLogin: function (value) {
+      if (value.data) {
+        sessionStorage.setItem("user_logged", JSON.stringify(value.data));
+      } else {
+        return false;
+      }
+    },
+  },
   methods: {
-    ...mapActions('Register', ['openPopupUserRegister']),
+    ...mapActions("Register", ["openPopupUserRegister"]),
+    ...mapActions("Login", ["setUserAuth"]),
     login() {
       if (!this.$v.$invalid) {
-        return false;
+        this.setUserAuth({
+          email: this.email,
+          password: this.senha,
+        });
       } else {
         this.$v.$touch();
         this.$vs.notify({
@@ -137,6 +152,9 @@ export default {
         });
       }
     },
+  },
+  computed: {
+    ...mapState("Login", ["lastUserLogin"]),
   },
 };
 </script>
