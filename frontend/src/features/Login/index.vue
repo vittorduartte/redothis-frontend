@@ -141,6 +141,7 @@ export default {
           email: this.email,
           password: this.senha,
         });
+        window.location.replace('/painel');
       } else {
         this.$v.$touch();
         this.$vs.notify({

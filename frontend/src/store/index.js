@@ -10,10 +10,14 @@ import getters from './getters'
 
 import Register from '@/features/Register/store'
 import Login from '@/features/Login/store'
+import Painel from '@/features/Painel/store'
+import Projeto from '@/features/Projeto/store'
 
 const modules = {
     Register,
-    Login
+    Login,
+    Painel,
+    Projeto
 }
 
 export default new Vuex.Store( {
