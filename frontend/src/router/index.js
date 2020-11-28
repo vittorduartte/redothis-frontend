@@ -3,14 +3,14 @@ import VueRouter from "vue-router"
 
 Vue.use(VueRouter);
 
-const user_verify = (para, deOnde, proximo) => {
-    const user = JSON.parse(sessionStorage.getItem('user_logged')) ? JSON.parse(sessionStorage.getItem('user_logged')) : { id: false };
-    if (user.id) {
-        proximo();
-    } else {
-        proximo("/login");
-    }
-}
+// const user_verify = (para, deOnde, proximo) => {
+//     const user = JSON.parse(sessionStorage.getItem('user_logged')) ? JSON.parse(sessionStorage.getItem('user_logged')) : { id: false };
+//     if (user.id) {
+//         proximo();
+//     } else {
+//         proximo("/login");
+//     }
+// }
 
 // Pageviews Components
 const Login = () => import('@/features/Login');
@@ -29,9 +29,9 @@ const routes = [
     {
         path: '/painel',
         name: 'painel',
-        beforeEnter: user_verify,
+        //beforeEnter: user_verify,
         meta: {
-            title: 'Painal'
+            title: 'Painel'
         },
         component: Painel
     }

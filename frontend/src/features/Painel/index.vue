@@ -28,7 +28,7 @@
         >
       </vs-navbar>
     </vs-row>
-    <PainelDoAluno v-if="user_type == 'professor'"/>
+    <PainelDoAluno />
     <PainelDoProfessor />
     <!-- Popup - Registro de Trabalho -->
     <RegistrarTrabalho />
@@ -58,10 +58,10 @@ export default {
         }
     },
     computed: {
-      user_type(){
-        let type_user = JSON.parse(window.sessionStorage.getItem('user_logged')).type_user;
-        return type_user ? 'professor' : 'aluno';
-      }
+      // user_type(){
+      //   let type_user = JSON.parse(window.sessionStorage.getItem('user_logged')).type_user;
+      //   return type_user ? 'professor' : 'aluno';
+      // }
     },
 };
 </script>
