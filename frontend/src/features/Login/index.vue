@@ -127,6 +127,7 @@ export default {
     lastUserLogin: function (value) {
       if (value.data) {
         sessionStorage.setItem("user_logged", JSON.stringify(value.data));
+        window.location.href=('http://localhost:8080/painel');
       } else {
         return false;
       }
@@ -141,7 +142,6 @@ export default {
           email: this.email,
           password: this.senha,
         });
-        window.location.replace('/painel');
       } else {
         this.$v.$touch();
         this.$vs.notify({
