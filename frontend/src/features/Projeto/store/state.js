@@ -1,3 +1,7 @@
 export default {
-    popupRegistrarTrabalho: false
+    popupRegistrarTrabalho: false,
+    alunos: [],
+    areasDeConhecimento:[],
+    categorias:[],
+    lastProjetoRegistrado: {}
 }

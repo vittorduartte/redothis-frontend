@@ -19,6 +19,14 @@ const Painel = () => import('@/features/Painel');
 // Register Routes
 const routes = [
     {
+        path: '/',
+        name: 'home',
+        beforeEnter: user_verify,
+        meta: {
+            title: 'Home'
+        }
+    },
+    {
         path: '/login',
         name: 'login',
         meta: {

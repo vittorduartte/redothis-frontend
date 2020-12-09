@@ -47,25 +47,6 @@
       <vs-col vs-w="5">
         <vs-select
           class="register-input"
-          :danger="$v.instituicao.$error"
-          danger-text="Por favor, selecione uma instituição."
-          :color="$v.instituicao.$error ? 'danger' : 'primary'"
-          label="Instituição:"
-          placeholder="Selecione uma instituição"
-          v-model="instituicao"
-          @change="$v.instituicao.$touch()"
-        >
-        <vs-select-item
-            :value="item"
-            :text="item.text"
-            :key="index"
-            v-for="(item, index) in instituicoes"
-          ></vs-select-item>
-        </vs-select>
-      </vs-col>
-      <vs-col vs-w="5">
-        <vs-select
-          class="register-input"
           :danger="$v.titulo.$error"
           danger-text="Por favor, selecione um título."
           :color="$v.titulo.$error ? 'danger' : 'primary'"
@@ -75,10 +56,28 @@
           @change="$v.titulo.$touch()"
         >
           <vs-select-item
-            :value="item"
-            :text="item.text"
+            :value="item.id"
+            :text="item.name"
             :key="index"
-            v-for="(item, index) in modalidade"
+            v-for="(item, index) in degrees.data"
+          ></vs-select-item>
+        </vs-select>
+      </vs-col>
+      <vs-col vs-w="5">
+        <vs-select
+          class="register-input"
+          :danger="$v.curso.$error"
+          danger-text="Por favor, selecione um curso."
+          :color="$v.curso.$error ? 'danger' : 'primary'"
+          label="Curso:"
+          v-model="curso"
+          placeholder="Selecione um curso"
+        >
+          <vs-select-item
+            :value="item.id"
+            :text="item.name"
+            :key="index"
+            v-for="(item, index) in courses.data"
           ></vs-select-item>
         </vs-select>
       </vs-col>
@@ -91,7 +90,7 @@
               color="rgba(98,39,255)"
               v-model="tipoDeUsuario"
               vs-name="radios"
-              :vs-value=0
+              :vs-value="0"
               >Aluno</vs-radio
             >
           </li>
@@ -100,29 +99,11 @@
               color="rgba(98,39,255)"
               v-model="tipoDeUsuario"
               vs-name="radios"
-              :vs-value=1
+              :vs-value="1"
               >Professor</vs-radio
             >
           </li>
         </ul>
-      </vs-col>
-      <vs-col vs-w="5">
-        <vs-select
-          class="register-input"
-          :danger="$v.curso.$error"
-          danger-text="Por favor, selecione um curso."
-          :color="$v.curso.$error ? 'danger' : 'primary'"
-          label="Curso:"
-          v-model="curso"
-          placeholder="Selecione um curso"
-        >
-        <vs-select-item
-            :value="item"
-            :text="item.text"
-            :key="index"
-            v-for="(item, index) in cursos"
-          ></vs-select-item>
-        </vs-select>
       </vs-col>
     </vs-row>
     <vs-row vs-type="flex" vs-justify="space-around">
@@ -155,7 +136,11 @@
     </vs-row>
     <vs-row vs-type="flex" vs-justify="center">
       <vs-col vs-type="flex" vs-justify="flex-start" vs-w="10">
-        <vs-checkbox v-model="termos" :vs-value="true" class="register-terms" icon="thumb_up_alt"
+        <vs-checkbox
+          v-model="termos"
+          :vs-value="true"
+          class="register-terms"
+          icon="thumb_up_alt"
           >Eu aceito todos os termos da <a href="#">política de uso</a> da
           empresa.</vs-checkbox
         >
@@ -183,30 +168,20 @@ export default {
     return {
       color: "#5222d0",
       colory: "#e2115d",
-      modalidade: [
-        { text: "Graduação", value: 1 },
-        { text: "Mestrado", value: 2 },
-        { text: "Doutorado", value: 3 },
-      ],
-      instituicoes: [
-        {text:"Universidade Federal do Maranhão", value:1},
-        {text:"Instituto Federal do Maranhão", value:2},
-      ],
-      cursos: [
-        {text:"Sistemas de Informação", value:1},
-        {text:"Engenharia da Computação", value:2},
-      ],
       nome: "",
       email: "",
       confemail: "",
-      instituicao: {},
-      titulo: {},
+      titulo: "",
       tipoDeUsuario: 0,
-      curso: {},
+      curso: "",
       senha: "",
       confsenha: "",
       termos: false,
     };
+  },
+  mounted() {
+    this.getCourses();
+    this.getDegrees();
   },
   watch: {
     lastUserRegister: function (val) {
@@ -228,12 +203,11 @@ export default {
       } else {
         this.$vs.notify({
           title: "Sucesso",
-          text:
-            "Usuário cadastrado com sucesso. Acesse sua conta!",
+          text: "Usuário cadastrado com sucesso. Acesse sua conta!",
           color: "success",
           time: 4000,
         });
-        this.openPopupUserRegister()
+        this.openPopupUserRegister();
       }
     },
   },
@@ -247,36 +221,32 @@ export default {
     confsenha: {
       confirmPassword: sameAs("senha"),
     },
-    instituicao: { required },
     titulo: { required },
     curso: { required },
   },
   methods: {
-    ...mapActions("Register", ["openPopupUserRegister", "registerUser"]),
+    ...mapActions("Register", ["openPopupUserRegister", "registerUser", "getCourses", "getDegrees"]),
     registerUserComponent() {
       if (this.$v.$invalid) {
         this.$v.$touch();
       } else {
-        if (this.termos!=true) {
-        
-        this.$vs.notify({
-          text: "Você precisa concordar com os termos de uso da plataforma.",
-          color: "warning",
-          time: 2000,
-        });
-
+        if (this.termos != true) {
+          this.$vs.notify({
+            text: "Você precisa concordar com os termos de uso da plataforma.",
+            color: "warning",
+            time: 2000,
+          });
         } else {
           const payload = {
             name: this.nome,
             email: this.email,
-            university: JSON.stringify(this.instituicao),
-            degree: JSON.stringify(this.titulo),
+            degree: parseInt(this.titulo),
             type_user: this.tipoDeUsuario,
-            course: JSON.stringify(this.curso),
+            course: parseInt(this.curso),
             password: this.senha,
           };
 
-          this.registerUser(payload)
+          this.registerUser(payload);
         }
       }
     },
@@ -285,7 +255,7 @@ export default {
     },
   },
   computed: {
-    ...mapState("Register", ["popupUserRegister", "lastUserRegister"]),
+    ...mapState("Register", ["popupUserRegister", "lastUserRegister", "courses", "degrees"]),
     registerUserPopupHome: {
       get() {
         return this.popupUserRegister;

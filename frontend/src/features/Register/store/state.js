@@ -1,4 +1,6 @@
 export default {
     popupUserRegister : false,
-    lastUserRegister: {}
+    lastUserRegister: {},
+    courses: [],
+    degrees: []
 }

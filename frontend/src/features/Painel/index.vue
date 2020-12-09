@@ -15,16 +15,14 @@
         <vs-navbar-item index="1">
           <a class="navbar-item" href="#">Suporte</a>
         </vs-navbar-item>
-        <vs-navbar-item index="2">
-          <a class="navbar-item" @click="logOut()">Log Out</a>
-        </vs-navbar-item>
         <vs-spacer></vs-spacer>
         <vs-button
           class="sponsor-button"
-          icon="favorite"
+          icon="exit_to_app"
           type="gradient"
           color="danger"
-          >Seja um Apoiador</vs-button
+          @click="logOut()"
+          >Log Out</vs-button
         >
       </vs-navbar>
     </vs-row>
