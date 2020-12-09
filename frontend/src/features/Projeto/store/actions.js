@@ -33,7 +33,18 @@ const get_Alunos = async ({
     commit
 }, id_curso) => {
     try {
-        const result = (await client.get(`/users?course=${id_curso}`)).data
+        const result = (await client.get(`/users?course=${id_curso}&type=student`)).data
+        commit("GET_ALUNOS", result)
+    } catch (error) {
+        console.error("Erro na action get_Alunos: ", error)
+    }
+}
+
+const get_Orientadores = async ({
+    commit
+}, id_curso) => {
+    try {
+        const result = (await client.get(`/users?course=${id_curso}&type=tutor`)).data
         commit("GET_ALUNOS", result)
     } catch (error) {
         console.error("Erro na action get_Alunos: ", error)
@@ -56,5 +67,6 @@ export default {
     get_Categorias,
     openPopupRegistrarTrabalho,
     get_Alunos,
-    registrar_Projeto
+    registrar_Projeto,
+    get_Orientadores
 }
