@@ -45,9 +45,9 @@ const get_Orientadores = async ({
 }, id_curso) => {
     try {
         const result = (await client.get(`/users?course=${id_curso}&type=tutor`)).data
-        commit("GET_ALUNOS", result)
+        commit("GET_ORIENTADORES", result)
     } catch (error) {
-        console.error("Erro na action get_Alunos: ", error)
+        console.error("Erro na action get_Orientadores: ", error)
     }
 }
 

@@ -18,10 +18,15 @@ const REGISTRAR_PROJETO = (state, result) => {
     state.lastProjetoRegistrado = result
 }
 
+const GET_ORIENTADORES =  (state, result) => {
+    state.orientadores = result
+}
+
 export default {
     OPEN_POPUP_REGISTRAR_TRABALHO,
     GET_CATEGORIES,
     GET_AREAS_DE_CONHECIMENTO,
     GET_ALUNOS,
+    GET_ORIENTADORES,
     REGISTRAR_PROJETO
 }
