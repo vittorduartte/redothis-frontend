@@ -35,7 +35,6 @@
             @selected="handleSelected"
             :max-items="10"
             maxHeight="400px"
-            pagination
             noDataText="Não existem projetos para serem orientados ou exibidos."
             :data="projetos.data"
           >
