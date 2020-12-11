@@ -30,6 +30,8 @@
     <PainelDoProfessor v-if="user_type=='professor'"/>
     <!-- Popup - Registro de Trabalho -->
     <RegistrarTrabalho />
+    <!-- Popup - Listar Submissões -->
+    <Submissoes />
   </div>
 </template>
 
@@ -37,12 +39,15 @@
 import PainelDoAluno from '@/features/Painel/Aluno'
 import PainelDoProfessor from '@/features/Painel/Professor'
 import RegistrarTrabalho from '@/features/Projeto/popup'
+import Submissoes from "@/features/Painel/ProfessorPopup";
+
 
 export default {
     components:{
         PainelDoAluno,
         PainelDoProfessor,
-        RegistrarTrabalho
+        RegistrarTrabalho,
+        Submissoes
     },
     data() {
         return {
@@ -58,7 +63,7 @@ export default {
     computed: {
       user_type(){
         let type_user = JSON.parse(window.sessionStorage.getItem('user_logged')).type_user;
-        return type_user ? 'professor' : 'aluno';
+        return type_user==1 ? 'professor' : 'aluno';
       }
     },
 };

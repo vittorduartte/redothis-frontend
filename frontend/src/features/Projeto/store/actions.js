@@ -10,7 +10,7 @@ const get_AreasDeConhecimento = async ({
     commit
 }) => {
     try {
-        const result = (await client.get("/get_areas")).data
+        const result = (await client.get("/areas")).data
         commit("GET_AREAS_DE_CONHECIMENTO", result)
 
     } catch (error) {
@@ -22,7 +22,7 @@ const get_Categorias = async ({
     commit
 }) => {
     try {
-        const result = (await client.get("/get_categories")).data
+        const result = (await client.get("/categories")).data
         commit("GET_CATEGORIES", result)
     } catch (error) {
         console.error("Erro na action get_AreasDeConhecimento: ", error)
@@ -55,7 +55,7 @@ const registrar_Projeto = async ({
     commit
 }, payload) => {
     try {
-        const result = (await client.post("/project", payload))
+        const result = (await client.post("/project", payload)).data
         commit("REGISTRAR_PROJETO", result)
     } catch (error) {
         console.error("Erro na action registrar_Projeto: ", error)

@@ -1,0 +1,69 @@
+<template>
+  <vs-popup
+    title="Submissões"
+    :color="color"
+    background-color="rgba(98,39,255,.65)"
+    :active.sync="popupSubmissoesByProject"
+  >
+    <vs-row vs-type="flex" vs-justify="center">
+        <vs-col vs-w="10">
+            <vs-list>
+                <vs-list-header title="Resumo do Trabalho" :color="color"></vs-list-header>
+                <vs-list-item :title="projetoSelecionado.title" subtitle="Título"></vs-list-item>
+                <vs-list-item :title="projetoSelecionado.category" subtitle="Categoria"></vs-list-item>
+                <vs-list-item :title="projetoSelecionado.knowledge_area" subtitle="Área de Conhecimento"></vs-list-item>
+            </vs-list>
+        </vs-col>
+    </vs-row>
+    <vs-row vs-type="flex" vs-justify="center">
+        <vs-col vs-w="12">
+            <vs-table
+            noDataText="Não há submissões para este trabalho."
+            >
+            <template slot="thead">
+                <vs-th>#</vs-th>
+                <vs-th>Descrição:</vs-th>
+                <vs-th>Autor:</vs-th>
+                <vs-th></vs-th>
+            </template>
+            </vs-table>
+        </vs-col>
+    </vs-row>
+  </vs-popup>
+</template>
+
+<script>
+import { mapActions, mapState } from "vuex";
+
+export default {
+  data() {
+    return {
+      color: "#5222d0",
+    };
+  },
+  watch: {
+      popupSubmissoes: function(val){
+          if(val){
+              this.get_Submissoes(this.projetoSelecionado.id)
+          }
+      }
+  },
+  computed: {
+    ...mapState("Painel", ["popupSubmissoes","projetoSelecionado", "submissoes"]),
+    popupSubmissoesByProject: {
+      get() {
+        return this.popupSubmissoes;
+      },
+      set() {
+        this.openPopupSubmissoes();
+      },
+    },
+  },
+  methods: {
+    ...mapActions("Painel", ["openPopupSubmissoes", "get_Submissoes"]),
+  },
+};
+</script>
+
+<style>
+</style>

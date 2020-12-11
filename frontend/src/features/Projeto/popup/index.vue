@@ -11,11 +11,17 @@
           class="vs-input-register"
           label="Título:"
           v-model="titulo"
+          :danger="$v.titulo.$error"
+          danger-text="Por favor, preencha com o título do projeto."
+          :color="$v.titulo.$error ? 'danger' : 'primary'"
           @change="$v.titulo.$touch()"
         ></vs-input>
         <vs-textarea
           counter="500"
           v-model="descricao"
+          :danger="$v.descricao.$error"
+          danger-text="Por favor, preencha com uma descrição do projeto."
+          :color="$v.descricao.$error ? 'danger' : 'primary'"
           :counter-danger.sync="lengthLimiter"
           class="vs-input-register"
           label="Descrição:"
@@ -28,6 +34,10 @@
               label="Categoria:"
               placeholder="Selecione uma categoria"
               v-model="categoria"
+              :danger="$v.categoria.$error"
+              danger-text="Por favor, selecione uma categoria para o projeto."
+              :color="$v.categoria.$error ? 'danger' : 'primary'"
+              @change="$v.categoria.$touch()"
             >
               <vs-select-item
                 :key="index"
@@ -43,6 +53,10 @@
               label="Área de conhecimento:"
               placeholder="Selecione uma área de conhecimento"
               v-model="area_de_conhecimento"
+              :danger="$v.area_de_conhecimento.$error"
+              danger-text="Por favor, selecione uma área de conhecimento para o projeto."
+              :color="$v.area_de_conhecimento.$error ? 'danger' : 'primary'"
+              @change="$v.area_de_conhecimento.$touch()"
             >
               <vs-select-item
                 :key="index"
@@ -187,8 +201,12 @@
     </vs-row>
     <vs-divider></vs-divider>
     <vs-row vs-justify="flex-end">
-      <vs-col vs-w="3">
-        <vs-button :color="color" @click="registrar_Projeto_"
+      <vs-col vs-w="4">
+        <vs-button
+          type="gradient"
+          class="btn-fullwidth"
+          color="dark"
+          @click="registrar_Projeto_"
           >Salvar Projeto</vs-button
         >
       </vs-col>
@@ -209,7 +227,6 @@ export default {
       descricao: "",
       categoria: "",
       area_de_conhecimento: "",
-      orientado: "",
       selecionadoAluno: 0,
       selecionadoOrientador: 0,
       selecionados_alunos: [],
@@ -218,13 +235,10 @@ export default {
     };
   },
   validations: {
-    projeto: {
-      titulo: { required },
-      descricao: { required },
-      categoria: { required },
-      area_de_conhecimento: { required },
-      orientado: { required },
-    },
+    titulo: { required },
+    descricao: { required },
+    categoria: { required },
+    area_de_conhecimento: { required }
   },
   watch: {
     popupRegistrarTrabalho: function (val) {
@@ -240,10 +254,30 @@ export default {
       }
     },
     lastProjetoRegistrado: function (val) {
-      if(val.data) {
-        alert("Deu certo!")
+      if (val.data) {
+        this.$vs.notify({
+          title:"Sucesso!",
+          text:"Projeto registrado com sucesso!",
+          color:"success"   
+        });
+        this.get_Projetos();
+        this.openPopupRegistrarTrabalho();
+      } else if(!val.data && val.message == 'user already working') {
+        this.$vs.notify({
+          title:"Error!",
+          text:"Não foi possível registrar o projeto. Aluno com projeto em andamento!",
+          icon:"error",
+          color:"warning"
+        })
+      } else {
+        this.$vs.notify({
+          title:"Error!",
+          text:"Não foi possível registrar o projeto. Tente novamente, ou entre em contato com o suporte.",
+          icon:"error",
+          color:"danger"
+        })
       }
-    }
+    },
   },
   computed: {
     ...mapState("Projeto", [
@@ -252,8 +286,9 @@ export default {
       "areasDeConhecimento",
       "categorias",
       "orientadores",
-      "lastProjetoRegistrado"
+      "lastProjetoRegistrado",
     ]),
+    ...mapState("Painel", ["projetos"]),
     registerProjectPopupPainel: {
       get() {
         return this.popupRegistrarTrabalho;
@@ -272,27 +307,41 @@ export default {
       "get_Orientadores",
       "registrar_Projeto",
     ]),
+    ...mapActions("Painel", ["get_Projetos"]),
     selected_Aluno() {
       this.selecionados_alunos.push(this.alunos.data[this.selecionadoAluno]);
     },
     selected_Orientador() {
-      this.selecionados_orientadores.push(this.orientadores.data[this.selecionadoOrientador]);
+      this.selecionados_orientadores.push(
+        this.orientadores.data[this.selecionadoOrientador]
+      );
     },
     registrar_Projeto_() {
-      this.projeto = {
-        title: this.titulo,
-        subtitle: this.descricao,
-        category: this.categoria,
-        knowledge_area: this.area_de_conhecimento,
-        create_by: JSON.parse(sessionStorage.getItem("user_logged")).id,
-        students:this.selecionados_alunos.map((item) => {
-          return item.id
-        }),
-        tutors:this.selecionados_orientadores.map((item) => {
-          return item.id
-        }),
-      };
-      this.registrar_Projeto(this.projeto);
+      if (this.$v.$invalid ||this.selecionados_alunos.length == 0) {
+        this.$v.$touch();
+        this.$vs.notify({
+          color:"warning",
+          title:"Campos vazios",
+          text:"Preencha o todos os campos requeridos corretamente.",
+          icon:"warning"
+        })
+      } else {
+        this.projeto = {
+          title: this.titulo,
+          subtitle: this.descricao,
+          category: this.categoria,
+          knowledge_area: this.area_de_conhecimento,
+          create_by: JSON.parse(sessionStorage.getItem("user_logged")).id,
+          students: this.selecionados_alunos.map((item) => {
+            return item.id;
+          }),
+          tutors: this.selecionados_orientadores.map((item) => {
+            return item.id;
+          }),
+        };
+        console.log(this.projeto);
+        this.registrar_Projeto(this.projeto);
+      }
     },
   },
 };

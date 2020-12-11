@@ -1,25 +1,34 @@
 import client from "@/api"
 
-const get_AreasDeConhecimento = async ({ commit }) => {
+const get_Projetos = async ({ commit }, id_usuario) => {
     try {
-        const result = (await client.get("/get_knowledge_areas")).data
-        commit("GET_AREAS_DE_CONHECIMENTO", result)
-        
+        const result = (await client.get(`/user/${id_usuario}/projects`)).data
+        commit('GET_PROJETOS', result)
     } catch (error) {
-        console.error("Erro na action get_AreasDeConhecimento: ", error)
+        console.error("Erro na action get_Projetos: ", error)
     }
 }
 
-const get_Categorias = async ({ commit }) => {
+const openPopupSubmissoes = ({ commit }) => {
+    commit('OPEN_POPUP_SUBMISSOES')
+}
+
+const get_Submissoes = async ({ commit }, id_projeto) => {
     try {
-        const result = (await client.get("/get_categories")).data
-        commit("GET_CATEGORIES", result)
+        const result = (await client.get(`/project/${id_projeto}/submissions`)).data
+        commit('GET_SUBMISSOES', result)
     } catch (error) {
-        console.error("Erro na action get_AreasDeConhecimento: ", error)
+        console.error("Erro na action get_Submissoes: ", error)
     }
+}
+
+const selecionar_Projeto = ({commit}, projeto) => {
+    commit('SELECIONAR_PROJETO', projeto)
 }
 
 export default {
-    get_AreasDeConhecimento,
-    get_Categorias
+    get_Projetos,
+    get_Submissoes,
+    openPopupSubmissoes,
+    selecionar_Projeto
 }

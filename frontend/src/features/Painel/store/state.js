@@ -1,4 +1,7 @@
 export default {
     lastProjectRegister: {},
-    projects: []
+    projetos: [],
+    popupSubmissoes: false,
+    submissoes: [],
+    projetoSelecionado: {},
 }
