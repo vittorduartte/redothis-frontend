@@ -39,11 +39,37 @@
       </vs-list>
     </vs-col>
     <vs-col vs-w="5">
-        <vs-table
-        
-        >
-
-        </vs-table>
+      <vs-row vs-type="flex" vs-justify="center">
+        <vs-col vs-w="12">
+          <vs-table
+            noDataText="Nenhuma submissão registrada para este trabalho."
+            :data="submissoes"
+            maxHeight="500px"
+          >
+            <template slot="header">
+              <h3>Submissões</h3>
+            </template>
+            <template slot="thead">
+              <vs-th>#</vs-th>
+              <vs-th>Descrição:</vs-th>
+              <vs-th>Autor:</vs-th>
+              <vs-th>Status:</vs-th>
+            </template>
+          </vs-table>
+        </vs-col>
+        <vs-col vs-w="12">
+          <vs-divider></vs-divider>
+        </vs-col>
+        <vs-col vs-w="4" vs-offset="8">
+          <vs-button
+            type="gradient"
+            color="dark"
+            class="btn-fullwidth"
+            @click="popupRegistrarSubmissoes"
+            >Nova Submissão</vs-button
+          >
+        </vs-col>
+      </vs-row>
     </vs-col>
   </vs-row>
 </template>
@@ -63,11 +89,10 @@ export default {
     this.get_Projetos(JSON.parse(sessionStorage.getItem("user_logged")).id);
   },
   computed: {
-    ...mapState("Painel", ["projetos"]),
+    ...mapState("Painel", ["projetos", "submissoes"]),
   },
   methods: {
-    ...mapActions("Painel", ["get_Projetos", "get_Submissoes"]),
-
+    ...mapActions("Painel", ["get_Projetos", "get_Submissoes", "popupRegistrarSubmissoes"]),
   },
 };
 </script>

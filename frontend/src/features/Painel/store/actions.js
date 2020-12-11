@@ -22,7 +22,20 @@ const get_Submissoes = async ({ commit }, id_projeto) => {
     }
 }
 
-const selecionar_Projeto = ({commit}, projeto) => {
+const registrar_Submissao = async ({ commit }, payload) => {
+    try {
+        const result = (await client.post('/submission', payload)).data
+        commit("REGISTRAR_SUBMISSAO", result)
+    } catch (error) {
+        console.error("Erro na action registrar_Submissão: ", error)
+    }
+}
+
+const popupRegistrarSubmissoes = async ({commit}) => {
+    commit('POPUP_REGISTRAR_SUBMISSOES')
+}
+
+const selecionar_Projeto = ({ commit }, projeto) => {
     commit('SELECIONAR_PROJETO', projeto)
 }
 
@@ -30,5 +43,7 @@ export default {
     get_Projetos,
     get_Submissoes,
     openPopupSubmissoes,
-    selecionar_Projeto
+    selecionar_Projeto,
+    registrar_Submissao,
+    popupRegistrarSubmissoes
 }

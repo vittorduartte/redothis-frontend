@@ -26,46 +26,50 @@
         >
       </vs-navbar>
     </vs-row>
-    <PainelDoAluno v-if="user_type=='aluno'"/>
-    <PainelDoProfessor v-if="user_type=='professor'"/>
+    <PainelDoAluno v-if="user_type == 'aluno'" />
+    <PainelDoProfessor v-if="user_type == 'professor'" />
     <!-- Popup - Registro de Trabalho -->
     <RegistrarTrabalho />
     <!-- Popup - Listar Submissões -->
     <Submissoes />
+    <!-- Popup - Registrar Submissões -->
+    <RegistrarSubmissoes />
   </div>
 </template>
 
 <script>
-import PainelDoAluno from '@/features/Painel/Aluno'
-import PainelDoProfessor from '@/features/Painel/Professor'
-import RegistrarTrabalho from '@/features/Projeto/popup'
+import PainelDoAluno from "@/features/Painel/Aluno";
+import PainelDoProfessor from "@/features/Painel/Professor";
+import RegistrarTrabalho from "@/features/Projeto/popup";
 import Submissoes from "@/features/Painel/ProfessorPopup";
-
+import RegistrarSubmissoes from "@/features/Painel/AlunoPopup";
 
 export default {
-    components:{
-        PainelDoAluno,
-        PainelDoProfessor,
-        RegistrarTrabalho,
-        Submissoes
+  components: {
+    PainelDoAluno,
+    PainelDoProfessor,
+    RegistrarTrabalho,
+    Submissoes,
+    RegistrarSubmissoes,
+  },
+  data() {
+    return {
+      index: 0,
+    };
+  },
+  methods: {
+    logOut() {
+      window.sessionStorage.clear();
+      window.location.reload();
     },
-    data() {
-        return {
-            index: 0
-        }
+  },
+  computed: {
+    user_type() {
+      let type_user = JSON.parse(window.sessionStorage.getItem("user_logged"))
+        .type_user;
+      return type_user == 1 ? "professor" : "aluno";
     },
-    methods: {
-        logOut(){
-            window.sessionStorage.clear();
-            window.location.reload();
-        }
-    },
-    computed: {
-      user_type(){
-        let type_user = JSON.parse(window.sessionStorage.getItem('user_logged')).type_user;
-        return type_user==1 ? 'professor' : 'aluno';
-      }
-    },
+  },
 };
 </script>
 
