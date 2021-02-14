@@ -42,7 +42,7 @@
       <vs-row vs-type="flex" vs-justify="center">
         <vs-col vs-w="12">
           <h4>Progresso de revisões:</h4>
-          <vs-progress :height="12" :percent="10" color="success">success</vs-progress>
+          <vs-progress :height="12" :percent="100" color="success">success</vs-progress>
           <vs-table
             noDataText="Nenhuma submissão registrada para este trabalho."
             :data="submissoes.data"
